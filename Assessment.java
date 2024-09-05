@@ -16,6 +16,11 @@ class Calculator {
         if (input.isEmpty()) {
             return 0;
         }
+        String delimiter = "[,\n]";
+        if (input.startsWith("//")) {
+            delimiter = input.substring(2, input.indexOf("\n"));
+            input = input.substring(input.indexOf("\n") + 1);
+        }
         int sum = 0;
         String[] numbers = input.split("[,\n]");
         int[] ints = new int[numbers.length];
