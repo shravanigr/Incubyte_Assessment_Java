@@ -1,13 +1,17 @@
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Assessment {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter a string numbers");
-        String string = sc.nextLine();
+        String input = sc.nextLine();
         Calculator obj = new Calculator();
-        int result = obj.add(string);
-        System.out.println(result);
+        try {
+            System.out.println(obj.add(input));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
 
@@ -18,15 +22,26 @@ class Calculator {
         }
         String delimiter = "[,\n]";
         if (input.startsWith("//")) {
-            delimiter = input.substring(2, input.indexOf("\n"));
-            input = input.substring(input.indexOf("\n") + 1);
+            int delimiterEndIndex = input.indexOf("\n");
+            delimiter = Pattern.quote(input.substring(2, delimiterEndIndex));
+            input = input.substring(delimiterEndIndex + 1);
         }
+        String[] numbers = input.split(delimiter);
+        List<Integer> negatives = new ArrayList<>();
         int sum = 0;
-        String[] numbers = input.split("[,\n]");
-        int[] ints = new int[numbers.length];
-        for (String num : numbers) {
-            sum += Integer.parseInt(num);
+
+        for (String number : numbers) {
+            int num = Integer.parseInt(number);
+            if (num < 0) {
+                negatives.add(num);
+            } else {
+                sum += num;
+            }
         }
+        if (!negatives.isEmpty()) {
+            throw new IllegalArgumentException("Negative numbers not allowed: " + negatives);
+        }
+
         return sum;
     }
 }
