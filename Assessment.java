@@ -1,17 +1,25 @@
-import java.util.*;  
+import java.util.*;
+
 public class Assessment {
-    public static void main(String[] args){
-        Scanner sc= new Scanner(System.in);
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         System.out.println("Enter a string of comma-separated numbers");
-        String str= sc.nextLine(); 
+        String string = sc.nextLine();
+        Calculator obj = new Calculator();
+        int result = obj.add(string);
+        System.out.println(result);
+    }
+}
+
+class Calculator {
+    public int add(String input) {
         int sum = 0;
-        String[] numbers = str.split(",");
+        String[] numbers = input.split(",");
         int[] ints = new int[numbers.length];
-        for(int i = 0; i < numbers.length; i++){
+        for (int i = 0; i < numbers.length; i++) {
             ints[i] = Integer.parseInt(numbers[i]);
-            // System.out.println(ints[i]);
             sum = sum + ints[i];
         }
-        System.out.println(sum);
+        return sum;
     }
 }
